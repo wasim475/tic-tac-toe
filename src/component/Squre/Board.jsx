@@ -10,12 +10,22 @@ function Squre({value, clickedSqure}){
     )
 }
 
+
+
 export default function Board(){
     const [squre, setSqure]= useState(Array(9).fill(null))
     const [xIsNext, setXIsNext]= useState(true)
+    const winner = calculateWinner(squre)
+    let status;
+
+    if(winner){
+        status = `Winner is ${winner}`
+    }else{
+        status = xIsNext? "X's turn": "O's turn"
+    }
 
     function handleButton(i){
-        if(squre[i]){
+        if(squre[i] || calculateWinner(squre)){
             return
         }
         const nextSquire = squre.slice()
@@ -33,6 +43,9 @@ export default function Board(){
     
     return (
         <> 
+            <div>
+                <h1>{status}</h1>
+            </div>
             <div className="flex flex-col items-center">
                 <div className="mb-2 mt-1 flex">
                     <Squre value={squre[0]} clickedSqure={()=>handleButton(0)}/>
@@ -52,4 +65,24 @@ export default function Board(){
             </div>
         </>
     );
+}
+
+function calculateWinner(squre){
+    let lines = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+        [0,4,8],
+        [2,4,6]
+    ]
+    for(let i =0; i< lines.length; i++){
+        const [a,b,c]= lines[i]
+        if(squre[a] && squre[a]=== squre[b] && squre[a]===squre[c]){
+            return squre[a]
+        }
+    }
+    return null;
 }
