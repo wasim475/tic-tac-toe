@@ -1,11 +1,11 @@
-import Squre from "./component/Squre/Squre"
+import Board from './component/Squre/Board'
 
 function App() {
   
 
   return (
     <>
-      <Squre/>
+      <Board/>
     </>
   )
 }
